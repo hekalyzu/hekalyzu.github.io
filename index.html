@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Saya</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Product+Sans:wght@400;700&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <style>
+        /* --- CSS STYLING --- */
+        
+        /* Variabel Warna & Reset */
+        :root {
+            --google-blue: #4285F4;
+            --google-red: #DB4437;
+            --google-yellow: #F4B400;
+            --google-green: #0F9D58;
+            --bg-light: #FFFFFF;
+            --text-dark: #202124;
+            --text-muted: #5f6368;
+            --card-shadow: 0 4px 6px rgba(0,0,0,0.1), 0 1px 3px rgba(0,0,0,0.08);
+            --card-shadow-hover: 0 10px 20px rgba(0,0,0,0.12), 0 4px 8px rgba(0,0,0,0.06);
+            --transition-fast: 0.2s ease-out;
+            --transition-slow: 0.4s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f8f9fa;
+            color: var(--text-dark);
+            overflow-x: hidden;
+            opacity: 0; /* Untuk animasi loading */
+            animation: fadeInPage 0.5s ease-in forwards;
+        }
+
+        h1, h2, h3, h4, .logo {
+            font-family: 'Product Sans', sans-serif;
+            font-weight: 700;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+            transition: var(--transition-fast);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 24px;
+        }
+
+        /* --- Header & Navigasi --- */
+        header {
+            background-color: var(--bg-light);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+        }
+
+        .logo {
+            font-size: 1.6rem;
+            color: var(--google-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .logo-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background-color: var(--google-green);
+            animation: pulseDot 2s infinite;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 32px;
+        }
+
+        .nav-links a {
+            font-weight: 500;
+            color: var(--text-muted);
+            font-size: 1rem;
+            padding: 8px 0;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-links a:hover {
+            color: var(--google-blue);
+            border-bottom: 2px solid var(--google-blue);
+        }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            background-color: var(--bg-light);
+            padding-top: 80px;
+            position: relative;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            margin-bottom: 16px;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .hero-text h1 span {
+            animation: colorChange 8s infinite;
+        }
+
+        .hero-text p {
+            font-size: 1.3rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            font-weight: 300;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 16px;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 28px;
+            border-radius: 8px;
+            font-weight: 500;
+            font-size: 1rem;
+            transition: var(--transition-fast);
+        }
+
+        .btn-primary {
+            background-color: var(--google-blue);
+            color: #fff;
+        }
+
+        .btn-primary:hover {
+            background-color: #3367D6;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(66, 133, 244, 0.3);
+        }
+
+        .btn-secondary {
+            background-color: #f1f3f4;
+            color: var(--text-dark);
+            border: none !important; /* Ini yang menghilangkan garis hitamnya */
+            outline: none !important;
+        }
+
+        .btn-secondary:hover {
+            background-color: #e8eaed;
+        }
+
+        .hero-visual {
+            display: flex;
+            justify-content: center;
+            position: relative;
+        }
+
+        .hero-app-icon {
+            width: 200px;
+            height: 200px;
+            background: #fff;
+            border-radius: 36px;
+            box-shadow: 0 12px 24px rgba(0,0,0,0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            z-index: 2;
+            animation: floatIcon 6s ease-in-out infinite;
+            overflow: hidden; /* Mencegah foto keluar dari sudut melengkung */
+        }
+        
+        /* Mengatur ukuran foto agar pas */
+        .hero-app-icon img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        /* Wadah bulatan kini persis seukuran foto dan berada pas di tengah */
+        .hero-bg-shapes {
+            position: absolute;
+            width: 200px; 
+            height: 200px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+        
+        .shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.85;
+        }
+        
+        /* Bulatan Kuning: Kiri Atas */
+        .shape-1 { 
+            width: 90px; 
+            height: 90px; 
+            background: var(--google-yellow); 
+            top: -50px; 
+            left: -50px; 
+            animation: floatSmall 4s ease-in-out infinite; 
+        }
+        
+        /* Bulatan Merah: Kanan Bawah */
+        .shape-2 { 
+            width: 110px; 
+            height: 110px; 
+            background: var(--google-red); 
+            bottom: -50px; 
+            right: -50px; 
+            animation: floatSmall 5s ease-in-out infinite alternate; 
+        }
+
+        /* Animasi baru: Hanya mengambang halus di tempat agar tidak lari dari sudut */
+        @keyframes floatSmall {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-8px); }
+        }
+        /* --- Sections Utama --- */
+        section {
+            padding: 100px 0;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 64px;
+        }
+
+        .section-title {
+            font-size: 2.6rem;
+            margin-bottom: 12px;
+        }
+
+        .section-subtitle {
+            font-size: 1.1rem;
+            color: var(--text-muted);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* --- Kartu (Card) & Grid --- */
+        .card-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 32px;
+        }
+
+        .card {
+            background-color: var(--bg-light);
+            padding: 32px;
+            border-radius: 16px;
+            box-shadow: var(--card-shadow);
+            transition: var(--transition-slow);
+            border: 1px solid #f1f3f4;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--card-shadow-hover);
+            border-color: #dadce0;
+        }
+        
+        /* Animasi Efek Gelombang (Ripple) */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(66, 133, 244, 0.1);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease-out, height 0.6s ease-out;
+        }
+        
+        .card:active::after {
+            width: 300%;
+            height: 300%;
+        }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 24px;
+            display: inline-block;
+        }
+
+        .card h3 {
+            font-size: 1.4rem;
+            margin-bottom: 12px;
+            color: var(--text-dark);
+        }
+
+        .card p {
+            color: var(--text-muted);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+        
+        /* Warna Aksen Kartu */
+        .card-blue .card-icon { color: var(--google-blue); }
+        .card-green .card-icon { color: var(--google-green); }
+        .card-yellow .card-icon { color: var(--google-yellow); }
+        .card-red .card-icon { color: var(--google-red); }
+
+        /* --- Keahlian (Skills) --- */
+        .skills { background-color: #f8f9fa; }
+
+        /* --- Footer --- */
+        footer {
+            background-color: var(--bg-light);
+            padding: 64px 0;
+            border-top: 1px solid #dadce0;
+            text-align: center;
+        }
+
+        .social-links {
+            display: flex;
+            justify-content: center;
+            gap: 24px;
+            margin-bottom: 32px;
+        }
+
+        .social-link {
+            font-size: 1.6rem;
+            color: var(--text-muted);
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            background-color: #f1f3f4;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: var(--transition-fast);
+        }
+
+        .social-link:hover {
+            transform: scale(1.1);
+            color: #fff;
+        }
+        
+        /* Warna hover medsos */
+        .link-github:hover { 
+            background-color: #333333; 
+        }
+        .link-instagram:hover { 
+            background: radial-gradient(circle at 30% 107%, #fdf497 0%, #fdf497 5%, #fd5949 45%, #d6249f 60%, #285AEB 90%);
+            border-color: transparent;
+        }       
+        .link-x:hover { 
+            background-color: #000000; 
+        }
+        .link-tiktok:hover { 
+            background-color: #000000; 
+        }
+
+        footer p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+        }
+
+        /* --- ANIMASI (KEYFRAMES) --- */
+        @keyframes fadeInPage { from { opacity: 0; } to { opacity: 1; } }
+        
+        @keyframes colorChange {
+            0%, 100% { color: var(--google-blue); }
+            25% { color: var(--google-green); }
+            50% { color: var(--google-yellow); }
+            75% { color: var(--google-red); }
+        }
+        
+        @keyframes pulseDot { 
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.3); opacity: 0.6; }
+        }
+        
+        @keyframes floatIcon {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+        
+        @keyframes shapeMove1 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, 20px); }
+        }
+        
+        @keyframes shapeMove2 {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(-20px, -30px); }
+        }
+
+        /* Animasi Masuk saat Scroll (akan dipicu JS sederhana) */
+        .reveal {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- Responsif (HP) --- */
+        @media (max-width: 900px) {
+            .hero-content { grid-template-columns: 1fr; text-align: center; gap: 64px; }
+            .hero-text h1 { font-size: 2.8rem; }
+            .btn-group { justify-content: center; }
+            .hero-visual { order: -1; } /* Visual di atas di HP */
+            .nav-links { display: none; } /* Navigasi disembunyikan di HP */
+        }
+
+        /* --- CSS IKON TERBANG (DENGAN BATAS) --- */
+        .floating-background {
+            position: absolute;
+            width: 100%;
+            height: 100%; 
+            top: 0;
+            left: 0;
+            overflow: hidden;
+            z-index: 0; 
+            pointer-events: none; 
+        }
+
+        .icon-float {
+            position: absolute;
+            top: 0; /* Mulai dari pojok, digeser oleh JS */
+            left: 0;
+            font-size: 2.2rem;
+            opacity: 0.25; /* Transparansi ikon */
+            will-change: transform; /* Biar animasinya mulus tidak patah-patah */
+        }
+
+        /* Warna tema */
+        .icon-blue { color: var(--google-blue); }
+        .icon-red { color: var(--google-red); }
+        .icon-yellow { color: var(--google-yellow); }
+        .icon-green { color: var(--google-green); }
+
+        /* --- EFEK DARK MODE --- */
+        body {
+            /* Tambahkan efek transisi biar perubahan warnanya halus (tidak kaku) */
+            transition: background-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* Saat class 'dark-mode' ditambahkan ke body, variabel warna akan berubah */
+        body.dark-mode {
+            --bg-light: #202124;       /* Latar panel jadi abu-abu gelap */
+            --text-dark: #FFFFFF;      /* Teks utama jadi putih */
+            --text-muted: #9aa0a6;     /* Teks redup disesuaikan */
+            background-color: #121212; /* Latar belakang paling luar jadi sangat gelap */
+        }
+        
+        /* Penyesuaian spesifik elemen lain saat mode gelap */
+        body.dark-mode .hero, 
+        body.dark-mode .skills,
+        body.dark-mode .playlist-section {
+            background-color: #121212;
+        }
+
+        body.dark-mode header,
+        body.dark-mode .card,
+        body.dark-mode .music-window,
+        body.dark-mode footer {
+            background-color: #202124;
+            border-color: #3c4043;
+        }
+
+        body.dark-mode .music-window .window-header {
+            background-color: #303134;
+            border-color: #3c4043;
+        }
+
+        body.dark-mode .social-link {
+            background-color: #303134;
+            color: #e8eaed;
+        }
+
+        /* Elemen yang perlu transisi warna agar mulus saat berganti mode */
+        .card, header, .music-window, .window-header, footer, .social-link {
+            transition: background-color 0.5s ease, border-color 0.5s ease, color 0.5s ease;
+        }
+
+        /* --- CUSTOM POP-UP THEME PLAY STORE --- */
+        .custom-alert-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(4px); /* Efek blur ala iOS/Modern UI */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+
+        .custom-alert-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .custom-alert-box {
+            background: var(--bg-light);
+            padding: 30px 40px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
+            text-align: center;
+            max-width: 350px;
+            width: 90%;
+            transform: scale(0.8) translateY(20px); /* Efek muncul membal */
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid #f1f3f4;
+        }
+
+        .custom-alert-overlay.show .custom-alert-box {
+            transform: scale(1) translateY(0);
+        }
+
+        .custom-alert-icon {
+            font-size: 3rem;
+            color: var(--google-yellow);
+            margin-bottom: 15px;
+        }
+
+        .custom-alert-box p {
+            font-size: 1.1rem;
+            color: var(--text-dark);
+            margin-bottom: 25px;
+            font-family: 'Product Sans', sans-serif;
+            font-weight: 500;
+        }
+
+        .custom-alert-btn {
+            width: 100%;
+            border: none;
+            padding: 10px 0;
+            border-radius: 10px;
+            background-color: var(--google-blue);
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .custom-alert-btn:hover {
+            background-color: #3367D6;
+        }
+        
+        /* Agar pop-up ikut berubah saat mode gelap aktif */
+        body.dark-mode .custom-alert-box {
+            background: #202124;
+            border-color: #3c4043;
+        }
+        body.dark-mode .custom-alert-box p {
+            color: #FFFFFF;
+        }
+
+        /* --- Perbaikan Warna Teks Tombol di Mode Gelap --- */
+        body.dark-mode .btn-secondary {
+            color: #121212 !important; /* Memaksa teks tombol jadi hitam */
+            background-color: #e8eaed; /* Memastikan background tombol tetap terang */
+        }
+
+        /* --- DESAIN TOMBOL MODE GELAP (KONTRAST) --- */
+        
+        /* 1. Tampilan saat Mode Terang (Background Gelap, Teks Putih) */
+        #darkModeBtn {
+            background-color: #202124 !important; 
+            color: #ffffff !important; 
+            border: none !important;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+
+        #darkModeBtn:hover {
+            background-color: #000000 !important;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.2);
+        }
+
+        /* 2. Tampilan saat Mode Gelap (Background Terang, Teks Gelap) */
+        body.dark-mode #darkModeBtn {
+            background-color: #e8eaed !important; 
+            color: #121212 !important; 
+            box-shadow: 0 4px 6px rgba(255,255,255,0.1);
+        }
+
+        body.dark-mode #darkModeBtn:hover {
+            background-color: #ffffff !important;
+            box-shadow: 0 6px 12px rgba(255,255,255,0.2);
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <nav>
+                <div class="logo">
+                    Profil<span style="color:var(--text-dark);">Saya</span>
+                    <div class="logo-dot"></div>
+                </div>
+                <ul class="nav-links">
+                    <li><a href="#home">Beranda</a></li>
+                    <li><a href="#about">Tentang</a></li>
+                    <li><a href="#skills">Keahlian</a></li>
+                    <li><a href="#contact">Kontak</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="floating-background" id="iconContainer">
+            <i class="fas fa-code icon-float icon-blue"></i>
+            <i class="fas fa-gamepad icon-float icon-red"></i>
+            <i class="fas fa-laptop-code icon-float icon-yellow"></i>
+            <i class="fas fa-headphones icon-float icon-green"></i>
+            <i class="fas fa-coffee icon-float icon-blue"></i>
+            <i class="fas fa-lightbulb icon-float icon-yellow"></i>
+            <i class="fas fa-bug icon-float icon-green"></i>
+            <i class="fab fa-css3-alt icon-float icon-red"></i>
+        </div>
+        <div class="container hero-content">
+            <div class="hero-text">
+                <h1>Halo, Saya <span>Rifqi Haikal</span></h1>
+                <p>Saya adalah Seorang Mahasiswa Ilmu Komputer yang berdedikasi dan memiliki rasa penasaran yang tinggi di bidang teknologi dan Artificial Intelligence.</p>
+                <div class="btn-group">
+                    <a href="mailto:rhaikalz77@gmail.com" target="_blank" class="btn btn-primary"><i class="fas fa-envelope"></i> Hubungi Saya</a>
+                    <button id="darkModeBtn" class="btn btn-secondary"><i class="fas fa-moon"></i> Jangan dipencet</button>
+                </div>
+            </div>
+            <div class="hero-visual">
+                <div class="hero-visual">
+                <div class="hero-app-icon">
+                    <img src="1.png" alt="Foto Profil">
+                </div>
+                
+                <div class="hero-bg-shapes">
+                    <div class="shape shape-1"></div>
+                    <div class="shape shape-2"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="about">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title">Tentang Saya</h2>
+                <p class="section-subtitle">Gambaran mengenai saya, apa yang saya minati, dan apa visi misi saya.</p>
+            </div>
+            <div class="card-grid">
+                <div class="card card-blue reveal">
+                    <i class="fas fa-graduation-cap card-icon"></i>
+                    <h3>Latar Belakang</h3>
+                    <p>Saya adalah seorang Mahasiswa Fakultas Ilmu Komputer yang baru saja mencoba dan belajar tentang cara membuat website yang menarik dan interaktif</p>
+                </div>
+                <div class="card card-green reveal">
+                    <i class="fas fa-lightbulb card-icon"></i>
+                    <h3>Visi & Misi</h3>
+                    <p>Sebagai Mahasiswa fakultas ilmu komputer saya ingin sekali membuat sebuah sistem atau website yang menarik, interaktif, dan dapat dimengerti oleh kalangan usia.</p>
+                </div>
+                <div class="card card-yellow reveal">
+                    <i class="fas fa-heart card-icon"></i>
+                    <h3>Minat Utama</h3>
+                    <p>Minat utama saya adalah mempelajari Artificial Intelligence, Machine Learning, Deep Learning, System and Networking.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+<div id="customAlertOverlay" class="custom-alert-overlay">
+        <div class="custom-alert-box">
+            <div class="custom-alert-icon">
+                <i class="fas fa-exclamation-circle"></i>
+            </div>
+            <p id="customAlertMessage">Pesan di sini</p>
+            <button id="customAlertBtn" class="custom-alert-btn">iya iya</button>
+        </div>
+    </div>
+
+    <section id="skills" class="skills">
+        <div class="container">
+            <div class="section-header reveal">
+                <h2 class="section-title">Keahlian Utama</h2>
+                <p class="section-subtitle">Kombinasi kemampuan teknis dan interpersonal yang saya miliki.</p>
+            </div>
+            <div class="card-grid">
+                <div class="card card-green reveal">
+                    <i class="fas fa-code card-icon"></i>
+                    <h3>Pengembangan Web</h3>
+                    <p>Ahli dalam HTML, CSS, JavaScript, dan framework modern seperti React.</p>
+                </div>
+                <div class="card card-blue reveal">
+                    <i class="fas fa-paint-brush card-icon"></i>
+                    <h3>UI/UX Design</h3>
+                    <p>Menciptakan antarmuka yang indah, intuitif, dan berfokus pada pengalaman pengguna.</p>
+                </div>
+                <div class="card card-yellow reveal">
+                    <i class="fas fa-users card-icon"></i>
+                    <h3>Kolaborasi Tim</h3>
+                    <p>Mampu bekerja sama secara efektif dalam tim, komunikatif, dan adaptif terhadap perubahan.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer id="contact">
+        <div class="container">
+            <div class="social-links">
+                
+                <a href="https://tiktok.com/@hekalcomplicated" target="_blank" class="social-link link-tiktok" title="TikTok">
+                    <i class="fa-brands fa-tiktok"></i>
+                </a>
+
+                <a href="https://instagram.com/hklvzyl" target="_blank" class="social-link link-instagram" title="Instagram">
+                    <i class="fa-brands fa-instagram"></i>
+                </a>
+
+                <a href="https://github.com/hekalyzu" target="_blank" class="social-link link-github" title="GitHub">
+                    <i class="fa-brands fa-github"></i>
+                </a>
+
+                <a href="https://twitter.com/hklvzyl" target="_blank" class="social-link link-x" title="X">
+                    <i class="fa-brands fa-x-twitter"></i>
+                </a>
+
+            </div>
+            <p>&copy; 2026 Rifqi Haikal</p>
+        </div>
+    </footer>
+    <script>
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150; // Jarak elemen muncul
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        // Jalankan sekali saat load untuk elemen yang sudah terlihat
+        reveal();
+
+        // Fitur Animasi Scroll (Yang sudah ada sebelumnya)
+        function reveal() {
+            var reveals = document.querySelectorAll(".reveal");
+            for (var i = 0; i < reveals.length; i++) {
+                var windowHeight = window.innerHeight;
+                var elementTop = reveals[i].getBoundingClientRect().top;
+                var elementVisible = 150;
+                if (elementTop < windowHeight - elementVisible) {
+                    reveals[i].classList.add("active");
+                }
+            }
+        }
+        window.addEventListener("scroll", reveal);
+        reveal();
+
+        // Fitur Ikon Terbang Mantul (Punya Batas)
+        document.addEventListener("DOMContentLoaded", function() {
+            const container = document.getElementById('iconContainer');
+            if (!container) return;
+            const icons = container.querySelectorAll('.icon-float');
+
+            // Array untuk menyimpan data posisi dan kecepatan tiap ikon
+            let iconData = [];
+            
+            // Ukuran perkiraan ikon biar mantulnya pas sebelum ngelewatin batas
+            const iconSize = 40; 
+
+            icons.forEach(icon => {
+                iconData.push({
+                    el: icon,
+                    // Posisi awal acak (tapi tetap di dalam layar)
+                    x: Math.random() * (container.clientWidth - iconSize), 
+                    y: Math.random() * (container.clientHeight - iconSize),
+                    // Kecepatan gerak X dan Y (bisa minus atau plus biar arahnya beda)
+                    vx: (Math.random() - 0.5) * 1.5, 
+                    vy: (Math.random() - 0.5) * 1.5,
+                    // Rotasi awal dan kecepatan putar
+                    rot: Math.random() * 360,
+                    vrot: (Math.random() - 0.5) * 2 
+                });
+            });
+
+            // Fungsi untuk menggerakkan ikon setiap milidetik (Looping)
+            function animateIcons() {
+                const width = container.clientWidth;
+                const height = container.clientHeight;
+
+                iconData.forEach(data => {
+                    // Tambahkan kecepatan ke posisi saat ini
+                    data.x += data.vx;
+                    data.y += data.vy;
+                    data.rot += data.vrot;
+
+                    // INI BATASNYA (Kalau nabrak dinding, kecepatannya dibalik jadi mantul)
+                    if (data.x <= 0 || data.x + iconSize >= width) data.vx *= -1; 
+                    if (data.y <= 0 || data.y + iconSize >= height) data.vy *= -1;
+
+                    // Jaga-jaga kalau layarnya di-resize, ikon ditarik paksa ke dalam batas
+                    data.x = Math.max(0, Math.min(data.x, width - iconSize));
+                    data.y = Math.max(0, Math.min(data.y, height - iconSize));
+
+                    // Terapkan posisi dan rotasi baru ke CSS
+                    data.el.style.transform = `translate(${data.x}px, ${data.y}px) rotate(${data.rot}deg)`;
+                });
+                
+                // Panggil fungsinya lagi dan lagi agar terus bergerak mulus
+                requestAnimationFrame(animateIcons);
+            }
+            
+            // Mulai animasinya!
+            animateIcons();
+        });
+
+        // Fitur Dark Mode Iseng dengan Custom Pop-up Modern
+        const darkModeBtn = document.getElementById('darkModeBtn');
+        const customAlertOverlay = document.getElementById('customAlertOverlay');
+        const customAlertMessage = document.getElementById('customAlertMessage');
+        const customAlertBtn = document.getElementById('customAlertBtn');
+        
+        let darkClickCount = 0;
+        let pendingAction = null; // Menyimpan tugas setelah pop-up ditutup
+
+        // Fungsi khusus pemanggil pop-up keren
+        // Fungsi pemanggil pop-up yang sudah di-upgrade
+        function showCustomAlert(message, buttonText = "Paham", actionCallback = null) {
+            customAlertMessage.innerText = message;
+            customAlertBtn.innerText = buttonText; // Mengubah teks tombol secara otomatis
+            customAlertOverlay.classList.add('show');
+            pendingAction = actionCallback;
+        }
+
+        // Fungsi ketika tombol "Paham" diklik untuk menutup pop-up
+        customAlertBtn.addEventListener('click', function() {
+            customAlertOverlay.classList.remove('show');
+            
+            // Jika ada tugas tertunda (seperti ubah layar jadi hitam), jalankan!
+            if (pendingAction) {
+                setTimeout(pendingAction, 300); // Tunggu animasi nutup selesai
+                pendingAction = null;
+            }
+        });
+
+       if (darkModeBtn) {
+            darkModeBtn.addEventListener('click', function() {
+                
+                if (darkClickCount === 0) {
+                    // Klik 1: Tombol bertuliskan "Paham"
+                    showCustomAlert("jangan di klik!", "Paham");
+                    darkClickCount++;
+                } 
+                else if (darkClickCount === 1) {
+                    // Klik 2: Tombol bertuliskan "Paham"
+                    showCustomAlert("kalo dibilang jangan ya jangan!", "Paham");
+                    darkClickCount++;
+                } 
+                else if (darkClickCount === 2) {
+                    // Klik 3: Layar hitam seketika
+                    document.body.classList.add('dark-mode');
+                    this.innerHTML = '<i class="fas fa-sun"></i> Mode Terang';
+
+                    // Pop-up muncul dengan tombol pasrah: "waduhh"
+                    showCustomAlert("tuh kan jadi hitam!", "waduhh"); 
+                    
+                    darkClickCount++;
+                } 
+                else {
+                    // Klik 4 dst: Berfungsi normal sebagai saklar
+                    document.body.classList.toggle('dark-mode');
+                    
+                    if (document.body.classList.contains('dark-mode')) {
+                        this.innerHTML = '<i class="fas fa-sun"></i> Mode Terang';
+                    } else {
+                        this.innerHTML = '<i class="fas fa-moon"></i> Mode Gelap';
+                    }
+                }
+            });
+        }
+    </script>
+
+</body>
+</html>
